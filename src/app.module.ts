@@ -30,15 +30,15 @@ import {RegionController} from "./region/region.controller";
             username: configService.get('CUHAN_USER'),
             password: configService.get('CUHAN_PASSWORD'),
             //todo: почему ругается на тип?
-            database: 'postgres',
+            database: 'cuhanbd',
             synchronize: true,
             entities:[__dirname + '/**/*.entity{.js, .ts}'],
-            ssl: true,
+            /*ssl: true,
             extra: {
                 ssl: {
                     rejectUnauthorized: false
                 }
-            }
+            }*/
         }),
           inject: [ConfigService],
       }),
