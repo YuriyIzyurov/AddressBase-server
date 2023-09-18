@@ -25,12 +25,12 @@ import {RegionController} from "./region/region.controller";
         imports: [ConfigModule],
         useFactory: (configService: ConfigService) => ({
             type: 'postgres',
-            host: configService.get('POSTGRES_HOST'),
+            host: configService.get('CUHAN_HOST'),
             port: configService.get('DB_PORT'),
-            username: configService.get('POSTGRES_USER'),
-            password: configService.get('POSTGRES_PASSWORD'),
+            username: configService.get('CUHAN_USER'),
+            password: configService.get('CUHAN_PASSWORD'),
             //todo: почему ругается на тип?
-            database: 'verceldb',
+            database: 'postgres',
             synchronize: true,
             entities:[__dirname + '/**/*.entity{.js, .ts}'],
             ssl: true,

@@ -16,7 +16,7 @@ export class CityController {
 
   @Get('address')
   getCityInfo(@Query() params: { cityName: string, houseName: string }) {
-        //add queries/some basic validation/ban middleware/refactor ppl distribution algorithm
+
     return this.cityService.getCityInfo(params.cityName, params.houseName);
   }
 
