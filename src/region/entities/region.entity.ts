@@ -1,6 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {District} from "src/district/entities/district.entity";
-import {City} from "src/city/entities/city.entity";
+import {District} from "../../district/entities/district.entity";
+import {City} from "../../city/entities/city.entity";
 
 @Entity()
 export class Region {

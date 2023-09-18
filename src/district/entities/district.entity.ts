@@ -1,7 +1,6 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {City} from "src/city/entities/city.entity";
-import {Street} from "src/street/entities/street.entity";
-import {Region} from "src/region/entities/region.entity";
+import {City} from "../../city/entities/city.entity";
+import {Region} from "../../region/entities/region.entity";
 
 @Entity()
 export class District {

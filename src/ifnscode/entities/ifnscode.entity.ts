@@ -1,6 +1,5 @@
-import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {City} from "src/city/entities/city.entity";
-import {PostalCode} from "src/postal-code/entities/postal-code.entity";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {City} from "../../city/entities/city.entity";
 
 
 @Entity()

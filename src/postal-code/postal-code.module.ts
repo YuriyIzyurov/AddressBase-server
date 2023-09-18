@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PostalCodeService } from './postal-code.service';
 import { PostalCodeController } from './postal-code.controller';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {PostalCode} from "src/postal-code/entities/postal-code.entity";
+import {PostalCode} from "./entities/postal-code.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([PostalCode])],

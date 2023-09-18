@@ -5,15 +5,15 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {District} from "../district/entities/district.entity";
 import {Region} from "./entities/region.entity";
-import {City} from "src/city/entities/city.entity";
-import {Street} from "src/street/entities/street.entity";
-import {OKATOCode} from "src/okatocode/entities/okatocode.entity";
-import {PostalCode} from "src/postal-code/entities/postal-code.entity";
-import {IFNSCode} from "src/ifnscode/entities/ifnscode.entity";
-import {House} from "src/house/entities/house.entity";
-import {Apartment} from "src/apartment/entities/apartment.entity";
+import {City} from "../city/entities/city.entity";
+import {Street} from "../street/entities/street.entity";
+import {OKATOCode} from "../okatocode/entities/okatocode.entity";
+import {PostalCode} from "../postal-code/entities/postal-code.entity";
+import {IFNSCode} from "../ifnscode/entities/ifnscode.entity";
+import {House} from "../house/entities/house.entity";
+import {Apartment} from "../apartment/entities/apartment.entity";
 import {ivanovskaya, vladimirskaya, yaroslavskaya, streetNames} from "../constants"
-import {Person} from "src/person/entities/person.entity";
+import {Person} from "../person/entities/person.entity";
 
 
 function randomSort<T>(arr: T[]):T[] {

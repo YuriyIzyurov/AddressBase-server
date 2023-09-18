@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
 import {InjectRepository} from "@nestjs/typeorm";
-import {House} from "src/house/entities/house.entity";
+import {House} from "./entities/house.entity";
 import {Repository} from "typeorm";
-import {Street} from "src/street/entities/street.entity";
-import {City} from "src/city/entities/city.entity";
+import {Street} from "../street/entities/street.entity";
+import {City} from "../city/entities/city.entity";
 
 type ResponseType = {
   city: string,

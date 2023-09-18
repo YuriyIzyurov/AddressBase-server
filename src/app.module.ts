@@ -13,10 +13,10 @@ import { ApartmentModule } from './apartment/apartment.module';
 import { PostalCodeModule } from './postal-code/postal-code.module';
 import { IfnscodeModule } from './ifnscode/ifnscode.module';
 import { OkatocodeModule } from './okatocode/okatocode.module';
-import {BanController} from "src/ban.controller";
-import {BanMiddleware} from "src/ban.middleware";
-import {PersonController} from "src/person/person.controller";
-import {RegionController} from "src/region/region.controller";
+import {BanController} from "./ban.controller";
+import {BanMiddleware} from "./ban.middleware";
+import {PersonController} from "./person/person.controller";
+import {RegionController} from "./region/region.controller";
 
 @Module({
   imports: [

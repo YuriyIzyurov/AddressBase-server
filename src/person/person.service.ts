@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Person} from "./entities/person.entity";
-import {InsertResult, Repository} from "typeorm";
+import { Repository} from "typeorm";
 import {
   APART_COUNT_PER_HOUSE,
   female,
   male
 } from '../constants'
-import {Apartment} from "src/apartment/entities/apartment.entity";
+import {Apartment} from "../apartment/entities/apartment.entity";
 
 function generateRandomFemaleName() {
   const randomIndex = Math.floor(Math.random() * female.names.length);

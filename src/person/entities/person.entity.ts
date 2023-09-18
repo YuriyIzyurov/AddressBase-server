@@ -1,14 +1,10 @@
 import {
     Column,
-    CreateDateColumn,
     Entity,
     ManyToOne,
-    OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
 } from "typeorm";
-import {Apartment} from "src/apartment/entities/apartment.entity";
+import {Apartment} from "../../apartment/entities/apartment.entity";
 
 
 @Entity()

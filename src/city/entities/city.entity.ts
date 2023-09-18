@@ -1,17 +1,16 @@
 import {
     Column,
-    CreateDateColumn,
     Entity,
     JoinColumn, ManyToOne,
     OneToMany, OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
-import {District} from "src/district/entities/district.entity";
-import {Region} from "src/region/entities/region.entity";
-import {Street} from "src/street/entities/street.entity";
-import {OKATOCode} from "src/okatocode/entities/okatocode.entity";
-import {PostalCode} from "src/postal-code/entities/postal-code.entity";
-import {IFNSCode} from "src/ifnscode/entities/ifnscode.entity";
+import {District} from "../../district/entities/district.entity";
+import {Region} from "../../region/entities/region.entity";
+import {Street} from "../../street/entities/street.entity";
+import {OKATOCode} from "../../okatocode/entities/okatocode.entity";
+import {PostalCode} from "../../postal-code/entities/postal-code.entity";
+import {IFNSCode} from "../../ifnscode/entities/ifnscode.entity";
 
 @Entity()
 export class City {

@@ -1,6 +1,6 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {House} from "../../house/entities/house.entity";
-import {Person} from "src/person/entities/person.entity";
+import {Person} from "../../person/entities/person.entity";
 
 @Entity()
 export class Apartment {

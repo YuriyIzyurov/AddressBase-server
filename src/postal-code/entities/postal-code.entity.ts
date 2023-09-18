@@ -1,6 +1,6 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {City} from "src/city/entities/city.entity";
-import {Street} from "src/street/entities/street.entity";
+import {City} from "../../city/entities/city.entity";
+import {Street} from "../../street/entities/street.entity";
 
 
 @Entity()
