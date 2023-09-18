@@ -32,7 +32,13 @@ import {RegionController} from "./region/region.controller";
             //todo: почему ругается на тип?
             database: 'verceldb',
             synchronize: true,
-            entities:[__dirname + '/**/*.entity{.js, .ts}']
+            entities:[__dirname + '/**/*.entity{.js, .ts}'],
+            ssl: true,
+            extra: {
+                ssl: {
+                    rejectUnauthorized: false
+                }
+            }
         }),
           inject: [ConfigService],
       }),
