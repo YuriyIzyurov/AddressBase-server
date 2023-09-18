@@ -34,6 +34,6 @@ export class Person {
     @Column()
     sex: boolean
 
-    @ManyToOne(() => Person, person => person.apartment)
+    @ManyToOne(() => Apartment, apartment => apartment.persons, { onDelete: 'CASCADE' })
     apartment: Apartment;
 }

@@ -21,6 +21,11 @@ export class RegionController {
     return this.regionService.getEntityQuantity();
   }
 
+  @Get('utility')
+  getUtilityInfo() {
+    return this.regionService.getUtilityInfo();
+  }
+
 
 
   @Get(':id')

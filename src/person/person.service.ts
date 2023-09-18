@@ -115,6 +115,8 @@ export class PersonService {
     const apartIndex = APART_COUNT_PER_HOUSE;
     const peopleCount = 5000;
     const personStack = [];
+    const populatedApartment = [];
+    const populatedPersons = [];
 
     try {
       for(let i=0;i<peopleCount;i++) {
@@ -124,27 +126,39 @@ export class PersonService {
       }
       await this.personRepository.save(personStack)
 
+
       //пока у нас все жители не распределены, крутим цикл
-      while(personStack.length>0) {
+      while(personStack.length>40) {
         const randomHouse = Math.floor(Math.random() * houseCount);
-        const index = apartIndex*randomHouse;
+        const index = apartIndex*randomHouse-20;
         const firstApartOfRandomHouse = allApartsArr[index];
         if(firstApartOfRandomHouse.persons && firstApartOfRandomHouse.persons.length>0) {
           //значит этот дом мы заселили и ищем другой дом, тут ниче не делаем
+
         } else {
           //дом пустует, можно заполнить его жителями в расчете 1-4 человека на квартиру
           for(let i=0;i<APART_COUNT_PER_HOUSE-1;i++) {
             const personPerApart = Math.floor(Math.random() * 4) + 1;
-            for(let i=0;i<personPerApart;i++) {
+            const apartment = allApartsArr[index+i]
+            apartment.persons = []
+            for(let j=0;j<personPerApart;j++) {
               const person = personStack.pop();
-              allApartsArr[index+i].persons.push(person);
+              person.apartment = apartment
+              apartment.persons.push(person);
+              populatedPersons.push(person)
             }
+            populatedApartment.push(apartment)
           }
         }
       }
 
+      await Promise.all(populatedApartment.map((apartment,index) => this.apartmentRepository.save(apartment)));
+      await Promise.all(populatedPersons.map((person, index) => this.personRepository.save(person)));
+
+
       const countPers = await this.personRepository.count()
       const countAparts = await this.apartmentRepository.count()
+
 
       return {
         message: "Люди успешно заселены",
@@ -155,17 +169,45 @@ export class PersonService {
       }
 
     }
-    catch(e)
-    {
+    catch(e) {
       return {
         message: "Что-то пошло не так :(",
+        error: e
       }
     }
   }
 
 
-  async findAll(): Promise<Person[]> {
-    return this.personRepository.find();
+  async findAll(lastName:string): Promise<{}> {
+    try {
+      const query = await this.personRepository.createQueryBuilder('person')
+           .leftJoin('person.apartment', 'apartment')
+           .leftJoin('apartment.house', 'house')
+           //.leftJoinAndSelect('house.number', 'sd')
+          .select(['person','house'])
+          .where('person.lastName = :lastName', { lastName })
+          .groupBy('person.id, house.id')
+          .getRawMany()
+
+
+      if(!query) {
+        return {
+          message: 'Не найдено',
+          queryId: 2,
+        }
+      }
+      return {
+        message: 'Успех',
+        queryId: 2,
+        result: query
+      }
+    } catch(e) {
+      return {
+        message: 'error',
+        queryId: 2,
+        error: e
+      }
+    }
   }
 
 

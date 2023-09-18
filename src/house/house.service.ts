@@ -28,21 +28,38 @@ export class HouseService {
     return 'This action adds a new house';
   }
 
-  async findAllByName(number: string): Promise<any[]> {
-    const data1 = await this.houseRepository.count();
-    const data2 = await this.streetRepository.count();
-    const data3 = await this.cityRepository.count();
-    console.log(data1,data2,data3)
-    return await this.houseRepository.find()
-    /*const query = this.houseRepository.createQueryBuilder('house')
-        .select('house.number', 'houseNumber')
-        .addSelect('street.name', 'houseStreet')
-        .addSelect('city.name', 'cityName')
-        .leftJoinAndSelect('house.street', 'street')
-        .leftJoinAndSelect('street.city', 'city')
-        .where('house.number = :number', { number });
+  async findAllByName(number: string): Promise<any[]|{}> {
 
-    return await query.getMany();*/
+    try {
+      const query = await this.houseRepository.createQueryBuilder('house')
+          .leftJoin('house.street', 'street')
+          .leftJoin('house.apartments', 'apartment')
+          .leftJoin('street.city', 'city')
+          .leftJoin('apartment.persons', 'person')
+          .select(['city','street','house','COUNT(DISTINCT person.id) AS personCount'])
+          .where('house.number = :number', { number: number })
+          .andWhere('person.id IS NOT NULL')
+          .groupBy('house.id, street.id, city.id')
+          .getRawMany()
+
+      if(!query) {
+        return {
+          message: 'Ничего не найдено',
+          queryId: 1
+        }
+      }
+      return  {
+        message: 'Успех',
+        queryId: 1,
+        result: query
+      };
+
+    } catch(e) {
+      return {
+        message: e,
+        queryId: 1
+      }
+    }
   }
 
   findOne(id: number) {

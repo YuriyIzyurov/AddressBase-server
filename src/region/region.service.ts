@@ -12,7 +12,7 @@ import {PostalCode} from "src/postal-code/entities/postal-code.entity";
 import {IFNSCode} from "src/ifnscode/entities/ifnscode.entity";
 import {House} from "src/house/entities/house.entity";
 import {Apartment} from "src/apartment/entities/apartment.entity";
-import {ivanovskaya, vladimirskaya, yaroslavskaya} from "../constants"
+import {ivanovskaya, vladimirskaya, yaroslavskaya, streetNames} from "../constants"
 import {Person} from "src/person/entities/person.entity";
 
 
@@ -42,105 +42,8 @@ function splitArray<T>(arr: T[], sortFn: (arr:T[]) => T[]):T[][] {
 
   return [firstArray, secondArray, thirdArray, fourthArray];
 }
-const streetNames = [
-  "Ленина",
-  "Победы",
-  "Мира",
-  "Советская",
-  "Гагарина",
-  "Кирова",
-  "Комсомольская",
-  "Садовая",
-  "Строителей",
-  "Школьная",
-  "Зеленая",
-  "Набережная",
-  "Центральная",
-  "Первомайская",
-  "Октябрьская",
-  "Пролетарская",
-  "Солнечная",
-  "Заречная",
-  "Парковая",
-  "Мичурина",
-  "Красноармейская",
-  "Железнодорожная",
-  "Горького",
-  "Совхозная",
-  "Революции",
-  "Маяковского",
-  "Лермонтова",
-  "Пушкина",
-  "Горная",
-  "Рабочая",
-  "Полевая",
-  "Московская",
-  "Лесная",
-  "Труда",
-  "Калинина",
-  "Свердлова",
-  "Береговая",
-  "Партизанская",
-  "Коммунистическая",
-  "Фрунзе",
-  '1-я Лагерная',
-  '2-я Пионерская',
-  '3-я Комсомольская',
-  '1-я Мира',
-  '2-я Пролетарская',
-  '6-я Садовая',
-  '7-я Зеленая',
-  '8-я Центральная',
-  '9-я Набережная',
-  '1-я Советская',
-  '1-я Победы',
-  '1-я Солнечная',
-  '1-я Ленина',
-  '1-я Заречная',
-  '1-я Молодежная',
-  '1-я Строителей',
-  '1-я Южная',
-  '1-я Новая',
-  '1-я Лесная',
-  '2-я Речная',
-  '2-я Северная',
-  '2-я Луговая',
-  '2-я Октябрьская',
-  '2-я Заводская',
-  '2-я Школьная',
-  '2-я Горная',
-  '2-я Рабочая',
-  '2-я Парковая',
-  '2-я Береговая',
-  '3-я Хрустальная',
-  '3-я Звездная',
-  '3-я Трудовая',
-  '3-я Вокзальная',
-  '3-я Олимпийская',
-  '3-я Кирова',
-  '3-я Лазурная',
-  '3-я Сосновая',
-  '3-я Железнодорожная',
-  '3-я Цветочная',
-  '4-я Гагарина',
-  "4-я Железнодорожная",
-  "5-я Железнодорожная",
-  "6-я Железнодорожная",
-  "7-я Железнодорожная",
-  "8-я Железнодорожная",
-  "9-я Железнодорожная",
-  "10-я Железнодорожная",
-  "11-я Железнодорожная",
-  "12-я Железнодорожная",
-  "13-я Железнодорожная",
-  "14-я Железнодорожная",
-  "15-я Железнодорожная",
-  "16-я Железнодорожная",
-  "17-я Железнодорожная",
-];
+
 const [firstArr, secondArr, thirdArr, fouthArr] = splitArray(streetNames, randomSort);
-
-
 
 
 const checkUniqueOKATO = new Set<string>();
@@ -206,9 +109,11 @@ export class RegionService {
       private readonly personRepository: Repository<Person>,
   ) {}
 
-  async populateRegion(dto: CreateRegionDto): Promise<{message:string, count:{}}|string|{message:string}> {
+  async populateRegion(dto: CreateRegionDto): Promise<{message:string, count:{}}|{message:string}> {
     const regionParams = dto.name==='iv'? {...ivanovskaya} : dto.name==='vl'? {...vladimirskaya} : dto.name==='ya'? {...yaroslavskaya} : null
-    if(!regionParams) return 'Пустое имя недопустимо'
+    if(!regionParams) return {
+        message: 'Пустое имя недопустимо',
+      }
     //Проверим, вдруг такой регион уже есть
     const regionExist = await this.regionRepository.findOne({
       where: {
@@ -217,7 +122,9 @@ export class RegionService {
     })
 
     if(regionExist) {
-      return 'Такой регион уже есть'
+      return {
+        message: 'Такой регион уже есть',
+      }
     }
 
     // Создание региона
@@ -282,7 +189,7 @@ export class RegionService {
 
           city.streets.push(street)
           //заполним улицу домами
-          for(let i=0;i<regionParams.HOUSE_COUNT;i++) {
+          for(let i=1;i<regionParams.HOUSE_COUNT;i++) {
             const house = new House();
             house.number = String(i);
             house.street = street;
@@ -370,6 +277,18 @@ export class RegionService {
 
     return {
       message: "Количество всех сущностей",
+      count: entities
+    }
+  }
+  async getUtilityInfo(): Promise<any> {
+    const entities = {};
+    const repos = this.getAllRepos();
+    for (const repository of repos) {
+      entities[repository.metadata.tableName] = await repository.find({take: 2})
+    }
+
+    return {
+      message: "utility info",
       count: entities
     }
   }

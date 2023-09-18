@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PersonModule } from './person/person.module';
@@ -13,6 +13,10 @@ import { ApartmentModule } from './apartment/apartment.module';
 import { PostalCodeModule } from './postal-code/postal-code.module';
 import { IfnscodeModule } from './ifnscode/ifnscode.module';
 import { OkatocodeModule } from './okatocode/okatocode.module';
+import {BanController} from "src/ban.controller";
+import {BanMiddleware} from "src/ban.middleware";
+import {PersonController} from "src/person/person.controller";
+import {RegionController} from "src/region/region.controller";
 
 @Module({
   imports: [
@@ -43,7 +47,13 @@ import { OkatocodeModule } from './okatocode/okatocode.module';
       IfnscodeModule,
       OkatocodeModule,
   ],
-    controllers: [AppController],
-    providers: [AppService],
+    controllers: [AppController, BanController],
+    providers: [AppService, BanMiddleware],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(BanMiddleware)
+            .forRoutes(PersonController, RegionController);
+    }
+}

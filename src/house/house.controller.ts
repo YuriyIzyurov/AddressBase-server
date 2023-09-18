@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Query} from '@nestjs/common';
 import { HouseService } from './house.service';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
@@ -13,16 +13,16 @@ export class HouseController {
   }
 
   @Get()
-  findAllByName(@Body() houseName: string) {
+  findAllByName(@Query('houseName') houseName: string) {
     return this.houseService.findAllByName(houseName);
   }
 
 
 
-  @Get(':id')
+ /* @Get(':id')
   findOne(@Param('id') id: string) {
     return this.houseService.findOne(+id);
-  }
+  }*/
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHouseDto: UpdateHouseDto) {
